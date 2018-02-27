@@ -8,7 +8,7 @@ CPU = arm1176jzf-s
 
 CFLAGS= -mcpu=$(CPU) -fpic -ffreestanding $(DIRECTIVES) -g -std=gnu99
 CSRCFLAGS= -O2 -Wall -Wextra
-LFLAGS= -ffreestanding -O2 -nostdlib
+LFLAGS= -L../libs -lcsud -static -ffreestanding -O2 -nostdlib
 
 LINKER = linker.ld
 SRC = ../src/kernel
@@ -25,12 +25,12 @@ HEADERS = $(wildcard $(HEAD)/*.h)
 IMG_NAME=kernel
 
 build: $(OBJECTS) $(HEADERS)
-	$(CC) -T $(LINKER) -o $(IMG_NAME).elf $(LFLAGS) $(OBJECTS)
+	$(CC) -T $(LINKER) -o $(IMG_NAME).elf $(OBJECTS) $(LFLAGS)
 	$(OBJCOPY) $(IMG_NAME).elf -O binary $(IMG_NAME).img
 
 $(OBJ_DIR)/%.o: $(SRC)/%.c
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I$(SRC) -I$(HEAD) -c $< -o $@ $(CSRCFLAGS)
+	$(CC) $(CFLAGS) $(LFLAGS) -I$(SRC) -I$(HEAD) -c $< -o $@ $(CSRCFLAGS)
 
 #$(OBJ_DIR)/%.o: $(SRC)/$(ARCHDIR)/%.c
 #	mkdir -p $(@D)

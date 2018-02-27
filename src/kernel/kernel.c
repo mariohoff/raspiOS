@@ -5,6 +5,7 @@
 #include <kernel/framebuffer.h>
 #include <kernel/draw.h>
 #include <kernel/peripheral.h>
+#include <kernel/input.h>
 
 static void spin_sleep_us(unsigned int us)
 {
@@ -37,6 +38,7 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         (void) r1;
         (void) atags;
 
+
         gpio_set_func(18, 1);
         uart_init();
         uart_puts("Hello Kernel World\n");
@@ -45,23 +47,33 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         while(framebuffer_init());
         draw_set_graphicsaddress(fbinfo.buf);
 
+
         draw_set_forecolour(0xFFFFFF);
-        char *string = "Hello World\n Is this really working?\t Do tabs work?";
+        char *string = "Hello World. Maybe my keyboard input is working now!";
+        char *key = "Keyboards: ";
+        int keyboards = 0;
+
         draw_string(string, 0, 0);
-        draw_line(0,16,639,16);
+        
+        draw_set_forecolour(0xff00ff); //pink
+        
+        keyboard_init();
 
-        draw_set_forecolour(0x999999);
-        string = "Testing another colour out.";
-        draw_string(string, 0, 3);
-
-        draw_set_forecolour(0xff00ff);
-        char *s;
-        draw_string("Hello World", 0, 5);
-
+        char c = 0;
+        uint16_t x = 0, y = 2;
         while (1) {
-                gpio_set(18, 1);
-                spin_sleep_ms(500);
-                gpio_set(18, 0);
-                spin_sleep_ms(500);
+                keyboard_update();
+                c = keyboard_getchar();
+                if(c != 0) {
+                        draw_character(c, x, y);
+                        x++;
+                        if(x >= 80) {
+                                x = 0;
+                                y++;
+                        }
+                        if(y >= 60) {
+                                y = 2;
+                        }
+                }
         }
 }
