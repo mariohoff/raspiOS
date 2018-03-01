@@ -11,15 +11,17 @@ CSRCFLAGS= -O2 -Wall -Wextra
 LFLAGS= -L../libs -lcsud -static -ffreestanding -O2 -nostdlib
 
 LINKER = linker.ld
-SRC = ../src/kernel
+KER_SRC = ../src/kernel
 HEAD = ../include
-COMMON = ../src/common
+COMMON_SRC = ../src/common
 OBJ_DIR = objects
-SOURCES = $(wildcard $(SRC)/*.c)
-#SOURCES += $(wildcard $(SRC)/$(ARCHDIR)/*.c)
-ASMSOURCES = $(wildcard $(SRC)/*.S)
-OBJECTS = $(patsubst $(SRC)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
-OBJECTS += $(patsubst $(SRC)%.S, $(OBJ_DIR)/%.o, $(ASMSOURCES))
+SOURCES = $(wildcard $(KER_SRC)/*.c)
+COMMONSOURCES = $(wildcard $(COMMON_SRC)/*.c)
+#SOURCES += $(wildcard $(KER_SRC)/$(ARCHDIR)/*.c)
+ASMSOURCES = $(wildcard $(KER_SRC)/*.S)
+OBJECTS = $(patsubst $(KER_SRC)/%.c, $(OBJ_DIR)/%.o, $(SOURCES))
+OBJECTS += $(patsubst $(COMMON_SRC)/%.c, $(OBJ_DIR)/%.o, $(COMMONSOURCES))
+OBJECTS += $(patsubst $(KER_SRC)%.S, $(OBJ_DIR)/%.o, $(ASMSOURCES))
 HEADERS = $(wildcard $(HEAD)/*.h)
 
 IMG_NAME=kernel
@@ -28,17 +30,17 @@ build: $(OBJECTS) $(HEADERS)
 	$(CC) -T $(LINKER) -o $(IMG_NAME).elf $(OBJECTS) $(LFLAGS)
 	$(OBJCOPY) $(IMG_NAME).elf -O binary $(IMG_NAME).img
 
-$(OBJ_DIR)/%.o: $(SRC)/%.c
+$(OBJ_DIR)/%.o: $(KER_SRC)/%.c
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(LFLAGS) -I$(SRC) -I$(HEAD) -c $< -o $@ $(CSRCFLAGS)
+	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(HEAD) -c $< -o $@ $(CSRCFLAGS)
 
-#$(OBJ_DIR)/%.o: $(SRC)/$(ARCHDIR)/%.c
-#	mkdir -p $(@D)
-#	$(CC) $(CFLAGS) -I$(SRC) -I$(HEAD) -c $< -o $@ $(CSRCFLAGS)
-
-$(OBJ_DIR)/%.o: $(SRC)/%.S
+$(OBJ_DIR)/%.o: $(KER_SRC)/%.S
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I$(SRC) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(KER_SRC) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(COMMON_SRC)/%.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -I$(KER_SRC) -I$(HEAD) -c $< -o $@ $(CSRCFLAGS)
 
 clean:
 	rm -rf $(OBJ_DIR)
