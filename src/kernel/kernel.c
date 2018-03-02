@@ -35,7 +35,9 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         gpio_set_func(18, 1);
         uart_init();
         puts("Hello Kernel World\n");
+        spin_sleep_us(100);
         puts("Set GPIO 18 to output.\n");
+        spin_sleep_us(100);
 
         /*while(framebuffer_init());
         draw_set_graphicsaddress(fbinfo.buf);
@@ -49,9 +51,11 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
         while (1) {
                 puts("LED ON!\n");
+                spin_sleep_us(100);
                 gpio_set(18, 1);
                 spin_sleep_ms(500);
                 puts("LED OFF!\n");
+                spin_sleep_us(100);
                 gpio_set(18, 0);
                 spin_sleep_ms(500);
         }
