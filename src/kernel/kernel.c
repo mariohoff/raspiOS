@@ -49,14 +49,13 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         
         keyboard_init();*/
 
+        char buf[128];
         while (1) {
-                puts("LED ON!\n");
-                spin_sleep_us(100);
-                gpio_set(18, 1);
+                gets(&buf, 128);
+                puts(buf);
+                /*puts("LED ON!\n");
                 spin_sleep_ms(500);
                 puts("LED OFF!\n");
-                spin_sleep_us(100);
-                gpio_set(18, 0);
-                spin_sleep_ms(500);
+                spin_sleep_ms(500);*/
         }
 }

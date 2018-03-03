@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <kernel/peripheral.h>
 
 typedef union uart_flags {
         struct {
@@ -49,7 +50,7 @@ void delay(int32_t count);
 enum
 {
     // The GPIO registers base address.
-    GPIO_BASE = 0x20200000, 
+    //GPIO_BASE = 0x20200000, 
     //GPIO_BASE = 0x3F200000, // raspi2
 
 
@@ -62,7 +63,7 @@ enum
     GPPUDCLK0 = (GPIO_BASE + 0x98),
 
     // The base address for UART.
-    UART0_BASE = 0x20201000, 
+    //UART0_BASE = 0x20201000, 
     //UART0_BASE = 0x3F201000, //raspi 2 and above
 
     // The offsets for reach register for the UART.

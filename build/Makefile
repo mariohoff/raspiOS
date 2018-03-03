@@ -4,7 +4,10 @@ CC = $(TOOLCHAIN)-gcc
 OBJCOPY = $(TOOLCHAIN)-objcopy
 GDB = $(TOOLCHAIN)-gdb
 
-CPU = arm1176jzf-s
+#raspi model 1
+#CPU = arm1176jzf-s
+#raspi model2
+CPU = cortex-a7
 
 CFLAGS= -mcpu=$(CPU) -fpic -ffreestanding $(DIRECTIVES) -g -std=gnu99
 CSRCFLAGS= -O2 -Wall -Wextra
