@@ -27,7 +27,7 @@ int draw_pixel(uint32_t px, uint32_t py)
         if(px > width || py > height)
                 return -1;
 
-        //640x480, high colour specific
+        /*640x480, high colour specific*/
         px = (py*width)+px;
         volatile uint32_t *pixel_addr =
                 (volatile uint32_t *) (graphics_addr + (px));
@@ -77,7 +77,7 @@ int draw_line(int32_t x0, int32_t y0, int32_t x1, int32_t y1)
         }
 
         return 0;
-}//draw_line()
+}/*draw_line()*/
 
 void draw_character(char c, uint32_t x, uint32_t y)
 {
@@ -96,17 +96,19 @@ void draw_character(char c, uint32_t x, uint32_t y)
                                 draw_pixel(x*CHAR_WIDTH + w, y*CHAR_HEIGHT + h);
                 }
         }
-}//draw_character();
+}/*draw_character();*/
 
 void draw_string(char *s, uint32_t x, uint32_t y)
 {
         uint32_t x0 = x;
+        int i;
+
         while(*s != '\0') {
                 if(*s == '\n') {
                         y++;
                         x = x0 -1;
                 } else if(*s == '\t') {
-                        for(int i= 0; i < 4; i++) {
+                        for(i= 0; i < 4; i++) {
                                 draw_character(' ', x++, y);
                         }
                 } else {
@@ -114,6 +116,6 @@ void draw_string(char *s, uint32_t x, uint32_t y)
                 }
                 s++;
         }
-}//draw_string()
+}/*draw_string()*/
 
 

@@ -49,24 +49,24 @@ void delay(int32_t count);
 
 enum
 {
-    // The GPIO registers base address.
-    //GPIO_BASE = 0x20200000, 
-    //GPIO_BASE = 0x3F200000, // raspi2
+    /*The GPIO registers base address.
+    GPIO_BASE = 0x20200000, 
+    GPIO_BASE = 0x3F200000, // raspi2
 
 
-    // The offsets for reach register.
+    The offsets for reach register.
 
-    // Controls actuation of pull up/down to ALL GPIO pins.
+    Controls actuation of pull up/down to ALL GPIO pins. */
     GPPUD = (GPIO_BASE + 0x94),
 
-    // Controls actuation of pull up/down for specific GPIO pin.
+    /* Controls actuation of pull up/down for specific GPIO pin. */
     GPPUDCLK0 = (GPIO_BASE + 0x98),
 
-    // The base address for UART.
-    //UART0_BASE = 0x20201000, 
-    //UART0_BASE = 0x3F201000, //raspi 2 and above
+    /* The base address for UART. NOW IN peripheral.h!!
+    UART0_BASE = 0x20201000, 
+    UART0_BASE = 0x3F201000, //raspi 2 and above
 
-    // The offsets for reach register for the UART.
+    The offsets for reach register for the UART. */
     UART0_DR     = (UART0_BASE + 0x00),
     UART0_RSRECR = (UART0_BASE + 0x04),
     UART0_FR     = (UART0_BASE + 0x18),

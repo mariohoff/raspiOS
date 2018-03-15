@@ -5,13 +5,13 @@ OBJCOPY = $(TOOLCHAIN)-objcopy
 GDB = $(TOOLCHAIN)-gdb
 
 #raspi model 1
-#CPU = arm1176jzf-s
+CPU = arm1176jzf-s
 #raspi model2
-CPU = cortex-a7
+#CPU = cortex-a7
 
-CFLAGS= -mcpu=$(CPU) -fpic -ffreestanding $(DIRECTIVES) -g -std=gnu99
+CFLAGS= -mcpu=$(CPU) -fpic -ffreestanding -g
 CSRCFLAGS= -O2 -Wall -Wextra
-LFLAGS= -L../libs -lcsud -static -ffreestanding -O2 -nostdlib
+LFLAGS= -L../libs -lcsud -ffreestanding -O2 -nostdlib
 
 LINKER = linker.ld
 KER_SRC = ../src/kernel

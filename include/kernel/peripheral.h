@@ -10,10 +10,10 @@
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 8
 
-//raspi1
-//#define PERIPHERAL_BASE 0x20000000
-//raspi2+
-#define PERIPHERAL_BASE 0x3F000000
+/*raspi1 */
+#define PERIPHERAL_BASE 0x20000000
+/* raspi2
+#define PERIPHERAL_BASE 0x3F000000 */ 
 
 #define PERIPHERAL_LENGTH 0x01000000
 

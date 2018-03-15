@@ -1,7 +1,7 @@
 #include <kernel/gpio.h>
 #include <kernel/peripheral.h>
 
-#define GPIO_BASE (PERIPHERAL_BASE + GPIO_OFFSET)
+//#define GPIO_BASE (PERIPHERAL_BASE + GPIO_OFFSET)
 
 int gpio_set_func(uint8_t gpio, uint8_t func) 
 {

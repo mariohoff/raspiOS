@@ -46,8 +46,9 @@ char keys_shift[] =
 
 void keyboard_init(void) 
 {
+        int i;
         UsbInitialise();
-        for(int i = 0; i < 6; i++)
+        for(i = 0; i < 6; i++)
                 keyb_old_down[i] = 0;
 }
 

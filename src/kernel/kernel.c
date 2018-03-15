@@ -3,10 +3,9 @@
 #include <kernel/uart.h>
 #include <common/stdio.h>
 #include <kernel/gpio.h>
+#include <kernel/peripheral.h>
 #include <kernel/framebuffer.h>
 #include <kernel/draw.h>
-#include <kernel/peripheral.h>
-#include <kernel/input.h>
 
 static void spin_sleep_us(unsigned int us)
 {
@@ -34,28 +33,63 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 
         gpio_set_func(18, 1);
         uart_init();
-        puts("Hello Kernel World\n");
-        spin_sleep_us(100);
-        puts("Set GPIO 18 to output.\n");
-        spin_sleep_us(100);
+        keyboard_init();
 
-        /*while(framebuffer_init());
+        while(framebuffer_init());
         draw_set_graphicsaddress(fbinfo.buf);
 
         draw_set_forecolour(0xFFFFFF);
         char *string = "Hello World. Maybe my keyboard input is working now!";
         draw_string(string, 0, 0);
-        draw_set_forecolour(0xff00ff); //pink
+        uint32_t pink = 0xff00ff;
+        uint32_t black = 0x000000;
+        draw_set_forecolour(pink); //pink
         
-        keyboard_init();*/
+        /*keyboard_init();*/
+        int x = 0, y = 2;
+        const int X_MAX = SCREEN_WIDTH/CHAR_WIDTH;
+        const int Y_MAX = SCREEN_HEIGHT/CHAR_HEIGHT;
 
-        char buf[128];
+        char c;
+
         while (1) {
-                gets(&buf, 128);
-                puts(buf);
-                /*puts("LED ON!\n");
+                keyboard_update();
+                c = keyboard_getchar();
+                if(c != 0) {
+                        switch(c) {
+                                case 127:
+                                case 8:
+                                        draw_set_forecolour(black);
+                                        draw_character(' ', --x, y);
+                                        draw_set_forecolour(pink);
+                                        break;
+                                case '\n':
+                                        puts("\r\n");
+                                        x = 0;
+                                        y++;
+                                        break;
+                                default:
+                                        draw_character(c, x, y);
+                                        putc(c);
+                                        x++;
+                                        break;
+                        }
+                }
+
+                if(x >= X_MAX) {
+                        x = 0;
+                        y++;
+                        puts("\r\n");
+                }
+                if(y >= Y_MAX) {
+                        y = 0;
+                }
+
+                /*puts("LED AN\r\n");
+                gpio_set(18, 1);
                 spin_sleep_ms(500);
-                puts("LED OFF!\n");
+                puts("LED AUS\r\n");
+                gpio_set(18, 0);
                 spin_sleep_ms(500);*/
         }
 }
