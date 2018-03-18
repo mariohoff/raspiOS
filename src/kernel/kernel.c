@@ -47,6 +47,7 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
         
         /*keyboard_init();*/
         int x = 0, y = 2;
+        int ledstate = 0;
         const int X_MAX = SCREEN_WIDTH/CHAR_WIDTH;
         const int Y_MAX = SCREEN_HEIGHT/CHAR_HEIGHT;
 
@@ -59,8 +60,9 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
                         switch(c) {
                                 case 127:
                                 case 8:
+                                        if(x == 0) break; // nothing to delete 
                                         draw_set_forecolour(black);
-                                        draw_character(' ', --x, y);
+                                        draw_character(0x7f, --x, y);
                                         draw_set_forecolour(pink);
                                         break;
                                 case '\n':
@@ -72,6 +74,8 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
                                         draw_character(c, x, y);
                                         putc(c);
                                         x++;
+                                        ledstate = !ledstate;
+                                        gpio_set(18, ledstate);
                                         break;
                         }
                 }

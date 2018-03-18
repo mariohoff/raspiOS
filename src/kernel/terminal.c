@@ -41,29 +41,12 @@ char *colour_names[] = {
         "white"
 };
 
-void terminal_init(void)
-{
-        terminal_start->size = TERMINAL_SIZE;
-        terminal_start->character = TERMINAL_DEFAULT_CHAR;
-        terminal_start->colour = TERMINAL_DEFAULT_COLOUR;
-
-        terminal_stop->size = TERMINAL_SIZE;
-        terminal_stop->character = TERMINAL_DEFAULT_CHAR;
-        terminal_stop->colour = TERMINAL_DEFAULT_COLOUR;
-
-        terminal_view->size = TERMINAL_SIZE;
-        terminal_view->character = TERMINAL_DEFAULT_CHAR;
-        terminal_view->colour = TERMINAL_DEFAULT_COLOUR;
-
-        terminal_curr_colour = TERMINAL_DEFAULT_COLOUR;
-}
-
-void terminal_colour(char colour) 
+void terminal_colour(uint8_t colour) 
 {
         if(colour > 15)
                 return; // invalid colour. Do nothing
 
-        draw_set_forecolour(colour); //set 4bit colour to 16bit equivalent
+        draw_set_forecolour(colours[colour]); //set 4bit colour to 16bit equivalent
 }
 
 
@@ -73,8 +56,8 @@ void terminal_display(void)
         int ROWS = (SCREEN_HEIGHT / 16);
         int COLS = (SCREEN_WIDTH / 8);
 
-        for(y = 0; y < ROWS; y++) {
-                for(x = 0; x < COLS; x++) {
+        for(y = 0; y < COLS; y++) {
+                for(x = 0; x < ROWS; x++) {
                 }
         }
 }
