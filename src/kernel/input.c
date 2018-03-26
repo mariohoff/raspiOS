@@ -10,7 +10,7 @@ extern char KeyboardGetChar();
 static uint32_t* keyb_addr = 0;
 static uint16_t keyb_old_down[6];
 
-/*char keys_normal[] =
+char keys_normal[] =
 {
         0x0, 0x0, 0x0, 0x0, 'a', 'b', 'c', 'd',
         'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -42,7 +42,7 @@ char keys_shift[] =
         0x0, 0x0, 0x0, 0x0, '/', '*', '-', '+',
         '\n', '1', '2', '3', '4', '5', '6', '7',
         '8', '9', '0', '.', '\\', 0x0, 0x0, '='
-};*/
+};
 
 void keyboard_init(void) 
 {
@@ -56,7 +56,8 @@ void keyboard_update(void)
 {
         KeyboardUpdate();
         /*int keyb_count, key_down_count = 0;
-       
+        int i;
+
         UsbCheckForChange();
         keyb_count = KeyboardCount();
         if(keyb_count == 0) {
@@ -70,7 +71,7 @@ void keyboard_update(void)
         }
        
         keyb_count = KeyboardCount(); 
-        for(int i=0; i < keyb_count; i++) {
+        for(i=0; i < keyb_count; i++) {
                 keyb_addr = (uint32_t *) KeyboardGetAddress(i);
                 key_down_count =  KeyboardGetKeyDownCount(keyb_addr);
         }*/
